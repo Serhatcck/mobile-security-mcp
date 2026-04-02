@@ -1,29 +1,3 @@
-<p align="center">
-  <b>English</b> |
-  <a href="docs/README_zh-CN.md">简体中文</a> |
-  <a href="docs/README_zh-TW.md">繁體中文</a> |
-  <a href="docs/README_ko.md">한국어</a> |
-  <a href="docs/README_de.md">Deutsch</a> |
-  <a href="docs/README_es.md">Español</a> |
-  <a href="docs/README_fr.md">Français</a> |
-  <a href="docs/README_it.md">Italiano</a> |
-  <a href="docs/README_da.md">Dansk</a> |
-  <a href="docs/README_ja.md">日本語</a> |
-  <a href="docs/README_pl.md">Polski</a> |
-  <a href="docs/README_ru.md">Русский</a> |
-  <a href="docs/README_bs.md">Bosanski</a> |
-  <a href="docs/README_ar.md">العربية</a> |
-  <a href="docs/README_no.md">Norsk</a> |
-  <a href="docs/README_pt-BR.md">Português (Brasil)</a> |
-  <a href="docs/README_th.md">ไทย</a> |
-  <a href="docs/README_tr.md">Türkçe</a> |
-  <a href="docs/README_uk.md">Українська</a> |
-  <a href="docs/README_bn.md">বাংলা</a> |
-  <a href="docs/README_el.md">Ελληνικά</a> |
-  <a href="docs/README_vi.md">Tiếng Việt</a> |
-  <a href="docs/README_hi.md">हिन्दी</a>
-</p>
-
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/social-preview-dark.svg">
   <img src="docs/social-preview-light.svg" alt="mobile-security-mcp" width="100%">
@@ -31,6 +5,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/mobile-security-mcp"><img src="https://img.shields.io/npm/v/mobile-security-mcp?color=0ea5e9&label=npm" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/mobile-security-mcp"><img src="https://img.shields.io/npm/dm/mobile-security-mcp?color=0ea5e9&label=downloads" alt="npm downloads"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-10b981" alt="MIT License"></a>
   <img src="https://img.shields.io/badge/TypeScript-5.3-3178c6" alt="TypeScript">
   <img src="https://img.shields.io/badge/MCP-compatible-6366f1" alt="MCP">
@@ -77,25 +52,26 @@ Security researchers, mobile pentesters, and app developers can now audit permis
 | `ios_secrets_scanner` | Scans app binary + resource files for hardcoded secrets and credentials |
 
 ### Shared Pattern Registry
-All secret and Google service detection patterns live in a single `patterns.ts` file — easy to extend, used by both Android and iOS scanners.
+All secret and Google service detection patterns live in a single `patterns.ts` — easy to extend, used by both Android and iOS scanners.
 
 ---
 
 ## Installation
 
-### Global install
 ```bash
 npm install -g mobile-security-mcp
 ```
 
 ### Configure Claude Desktop
+
 Add to your `claude_desktop_config.json`:
 
 ```json
 {
   "mcpServers": {
     "mobile-security-mcp": {
-      "command": "mobile-security-mcp"
+      "command": "npx",
+      "args": ["mobile-security-mcp"]
     }
   }
 }
@@ -106,14 +82,13 @@ Add to your `claude_desktop_config.json`:
 - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
 
 ### Run from source
+
 ```bash
 git clone https://github.com/Serhatcck/mobile-security-mcp.git
 cd mobile-security-mcp
-npm install
-npm run build
+npm install && npm run build
 ```
 
-Add to Claude Desktop config:
 ```json
 {
   "mcpServers": {
@@ -135,39 +110,28 @@ Once configured, restart Claude Desktop and start a conversation:
 
 > *"Check this IPA for hardcoded API keys: /path/to/app.ipa"*
 
-> *"What Firebase services does this APK use? /path/to/app.apk"*
+> *"What Firebase services does this APK use?"*
 
 > *"Are there any exported components in this APK that could be an attack surface?"*
 
 > *"Show me all third-party SDKs in this iOS app and flag any privacy risks"*
 
-### Android prerequisites
+### Prerequisites
+
+**Android:**
 - [`apktool`](https://apktool.org) — required for `android_api_extractor` (`brew install apktool`)
-- `aapt` (optional, part of Android SDK build tools) — speeds up manifest parsing
+- `aapt` (optional) — speeds up manifest parsing, part of Android SDK build tools
 
-### iOS prerequisites
-- `codesign` — built into macOS, required for `ios_entitlements_checker`
-- `plutil` — built into macOS, required for binary plist parsing
-- `strings` — built into macOS, required for binary analysis tools
+**iOS (macOS only):**
+- `codesign`, `plutil`, `strings` — all built into macOS, no install needed
 
 ---
 
-## Demo
-
-Generate a demo GIF with [VHS](https://github.com/charmbracelet/vhs):
-
-```bash
-brew install charmbracelet/tap/vhs
-vhs docs/demo.tape
-```
-
----
-
-## Tools Reference
+## Tools
 
 ### `apk_manifest_analyzer`
 ```
-Input:  apk_path (string) — path to APK file
+Input:  apk_path (string)
 Output: Package info, security flags, components, intent filters, warnings
 ```
 
@@ -185,7 +149,7 @@ Output: Retrofit HTTP endpoints or Postman collection JSON
 
 ### `android_google_services`
 ```
-Input:  apk_path (string), smali_folder (optional string)
+Input:  apk_path (string), smali_folder (optional)
 Output: Firebase project ID, API keys, database URL, storage bucket, OAuth clients
 ```
 
@@ -239,23 +203,28 @@ Output: Secrets found in resource files and binary, split by layer with severity
 
 ---
 
+## Demo
+
+Generate a demo GIF with [VHS](https://github.com/charmbracelet/vhs):
+
+```bash
+brew install charmbracelet/tap/vhs
+vhs docs/demo.tape
+```
+
+---
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, how to add new tools, and PR guidelines.
-
----
 
 ## Security
 
 See [SECURITY.md](SECURITY.md) for how to report vulnerabilities privately.
 
----
-
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md).
-
----
 
 ## License
 
