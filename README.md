@@ -26,15 +26,15 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/social-preview-dark.svg">
-  <img src="docs/social-preview-light.svg" alt="mobile-mcp-security" width="100%">
+  <img src="docs/social-preview-light.svg" alt="mobile-security-mcp" width="100%">
 </picture>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/mobile-mcp-security"><img src="https://img.shields.io/npm/v/mobile-mcp-security?color=0ea5e9&label=npm" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/mobile-security-mcp"><img src="https://img.shields.io/npm/v/mobile-security-mcp?color=0ea5e9&label=npm" alt="npm version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-10b981" alt="MIT License"></a>
   <img src="https://img.shields.io/badge/TypeScript-5.3-3178c6" alt="TypeScript">
   <img src="https://img.shields.io/badge/MCP-compatible-6366f1" alt="MCP">
-  <a href="https://github.com/Serhatcck/mobile-mcp-security/actions"><img src="https://img.shields.io/github/actions/workflow/status/Serhatcck/mobile-mcp-security/ci.yml?label=CI" alt="CI"></a>
+  <a href="https://github.com/Serhatcck/mobile-security-mcp/actions"><img src="https://img.shields.io/github/actions/workflow/status/Serhatcck/mobile-security-mcp/ci.yml?label=CI" alt="CI"></a>
 </p>
 
 <p align="center">
@@ -48,7 +48,7 @@
 
 ---
 
-**mobile-mcp-security** is an [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that gives Claude — and any MCP-compatible AI client — the ability to analyze Android APK and iOS IPA files for security issues through natural language conversation.
+**mobile-security-mcp** is an [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that gives Claude — and any MCP-compatible AI client — the ability to analyze Android APK and iOS IPA files for security issues through natural language conversation.
 
 Security researchers, mobile pentesters, and app developers can now audit permissions, extract API endpoints, detect hardcoded secrets, inspect Firebase configuration, and enumerate third-party SDKs by simply asking Claude — no scripting required.
 
@@ -85,7 +85,7 @@ All secret and Google service detection patterns live in a single `patterns.ts` 
 
 ### Global install
 ```bash
-npm install -g mobile-mcp-security
+npm install -g mobile-security-mcp
 ```
 
 ### Configure Claude Desktop
@@ -94,8 +94,8 @@ Add to your `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "mobile-mcp-security": {
-      "command": "mobile-mcp-security"
+    "mobile-security-mcp": {
+      "command": "mobile-security-mcp"
     }
   }
 }
@@ -107,8 +107,8 @@ Add to your `claude_desktop_config.json`:
 
 ### Run from source
 ```bash
-git clone https://github.com/Serhatcck/mobile-mcp-security.git
-cd mobile-mcp-security
+git clone https://github.com/Serhatcck/mobile-security-mcp.git
+cd mobile-security-mcp
 npm install
 npm run build
 ```
@@ -117,9 +117,9 @@ Add to Claude Desktop config:
 ```json
 {
   "mcpServers": {
-    "mobile-mcp-security": {
+    "mobile-security-mcp": {
       "command": "node",
-      "args": ["/absolute/path/to/mobile-mcp-security/dist/index.js"]
+      "args": ["/absolute/path/to/mobile-security-mcp/dist/index.js"]
     }
   }
 }

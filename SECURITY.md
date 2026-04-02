@@ -10,7 +10,7 @@
 
 **Please do not open a public GitHub issue for security vulnerabilities.**
 
-Report vulnerabilities privately via [GitHub Security Advisories](https://github.com/Serhatcck/mobile-mcp-security/security/advisories/new).
+Report vulnerabilities privately via [GitHub Security Advisories](https://github.com/Serhatcck/mobile-security-mcp/security/advisories/new).
 
 Include:
 - Description of the vulnerability

@@ -12,7 +12,7 @@
   </g>
 
   <!-- Title -->
-  <text x="640" y="270" text-anchor="middle" font-size="58" font-weight="700" fill="#f1f5f9" letter-spacing="-1">mobile-mcp-security</text>
+  <text x="640" y="270" text-anchor="middle" font-size="58" font-weight="700" fill="#f1f5f9" letter-spacing="-1">mobile-security-mcp</text>
 
   <!-- Subtitle -->
   <text x="640" y="320" text-anchor="middle" font-size="24" fill="#94a3b8" font-weight="400">Mobile App Security Analysis · MCP Server for Claude</text>

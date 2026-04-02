@@ -1,12 +1,12 @@
-# Contributing to mobile-mcp-security
+# Contributing to mobile-security-mcp
 
 Thank you for your interest in contributing! This guide covers everything you need to get started.
 
 ## Development Setup
 
 ```bash
-git clone https://github.com/Serhatcck/mobile-mcp-security.git
-cd mobile-mcp-security
+git clone https://github.com/Serhatcck/mobile-security-mcp.git
+cd mobile-security-mcp
 npm install
 npm run build
 ```

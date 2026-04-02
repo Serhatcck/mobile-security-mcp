@@ -29,14 +29,14 @@ jobs:
       result: ${{ steps.run.outputs.result }}
 
     steps:
-      - name: Install mobile-mcp-security
-        run: npm install -g mobile-mcp-security
+      - name: Install mobile-security-mcp
+        run: npm install -g mobile-security-mcp
 
       - name: Run tool
         id: run
         run: |
           RESULT=$(node -e "
-            const tool = require('/usr/local/lib/node_modules/mobile-mcp-security/dist/index.js');
+            const tool = require('/usr/local/lib/node_modules/mobile-security-mcp/dist/index.js');
             // Dynamic import and run
           " 2>&1 || echo "Error running tool")
           echo "result<<EOF" >> $GITHUB_OUTPUT
@@ -45,7 +45,7 @@ jobs:
 
       - name: Post result to job summary
         run: |
-          echo "## mobile-mcp-security: \`${{ inputs.tool }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "## mobile-security-mcp: \`${{ inputs.tool }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
           echo "${{ steps.run.outputs.result }}" >> $GITHUB_STEP_SUMMARY
