@@ -1,0 +1,28 @@
+{
+  "name": "mobile-mcp-security",
+  "version": "1.0.0",
+  "description": "Mobile app security analysis MCP server for Android APK and iOS IPA files",
+  "bin": {
+    "mobile-mcp-security": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node --esm src/index.ts",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "latest",
+    "adm-zip": "^0.5.10",
+    "plist": "^3.1.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "@types/node": "^20.11.5",
+    "@types/adm-zip": "^0.5.5",
+    "@types/plist": "^3.0.5",
+    "ts-node": "^10.9.2"
+  }
+}
