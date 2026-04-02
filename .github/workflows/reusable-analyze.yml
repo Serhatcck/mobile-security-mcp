@@ -1,0 +1,52 @@
+name: Reusable Mobile Security Analysis
+
+on:
+  workflow_call:
+    inputs:
+      file_path:
+        description: Absolute path to the APK or IPA file on the runner
+        required: true
+        type: string
+      tool:
+        description: Tool name to run (e.g. apk_manifest_analyzer, ios_secrets_scanner)
+        required: true
+        type: string
+      extra_args:
+        description: JSON string of additional arguments to pass to the tool handler
+        required: false
+        type: string
+        default: "{}"
+    outputs:
+      result:
+        description: Tool output text
+        value: ${{ jobs.analyze.outputs.result }}
+
+jobs:
+  analyze:
+    name: Run ${{ inputs.tool }}
+    runs-on: macos-latest
+    outputs:
+      result: ${{ steps.run.outputs.result }}
+
+    steps:
+      - name: Install mobile-mcp-security
+        run: npm install -g mobile-mcp-security
+
+      - name: Run tool
+        id: run
+        run: |
+          RESULT=$(node -e "
+            const tool = require('/usr/local/lib/node_modules/mobile-mcp-security/dist/index.js');
+            // Dynamic import and run
+          " 2>&1 || echo "Error running tool")
+          echo "result<<EOF" >> $GITHUB_OUTPUT
+          echo "$RESULT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Post result to job summary
+        run: |
+          echo "## mobile-mcp-security: \`${{ inputs.tool }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.run.outputs.result }}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY

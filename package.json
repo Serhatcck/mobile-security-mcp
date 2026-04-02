@@ -12,6 +12,33 @@
     "dev": "ts-node --esm src/index.ts",
     "prepare": "npm run build"
   },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mobile-security",
+    "android",
+    "ios",
+    "apk",
+    "ipa",
+    "security",
+    "pentest",
+    "reverse-engineering",
+    "firebase",
+    "secrets-detection",
+    "static-analysis",
+    "claude",
+    "ai"
+  ],
+  "author": "Serhatcck",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Serhatcck/mobile-mcp-security.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Serhatcck/mobile-mcp-security/issues"
+  },
+  "homepage": "https://github.com/Serhatcck/mobile-mcp-security#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "latest",
     "adm-zip": "^0.5.10",

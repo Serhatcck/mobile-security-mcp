@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discussion & Questions
+    url: https://github.com/Serhatcck/mobile-mcp-security/discussions
+    about: Ask questions, share findings, discuss use cases
+  - name: Security Vulnerability
+    url: https://github.com/Serhatcck/mobile-mcp-security/security/advisories/new
+    about: Report security vulnerabilities privately

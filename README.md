@@ -1,0 +1,262 @@
+<p align="center">
+  <b>English</b> |
+  <a href="docs/README_zh-CN.md">简体中文</a> |
+  <a href="docs/README_zh-TW.md">繁體中文</a> |
+  <a href="docs/README_ko.md">한국어</a> |
+  <a href="docs/README_de.md">Deutsch</a> |
+  <a href="docs/README_es.md">Español</a> |
+  <a href="docs/README_fr.md">Français</a> |
+  <a href="docs/README_it.md">Italiano</a> |
+  <a href="docs/README_da.md">Dansk</a> |
+  <a href="docs/README_ja.md">日本語</a> |
+  <a href="docs/README_pl.md">Polski</a> |
+  <a href="docs/README_ru.md">Русский</a> |
+  <a href="docs/README_bs.md">Bosanski</a> |
+  <a href="docs/README_ar.md">العربية</a> |
+  <a href="docs/README_no.md">Norsk</a> |
+  <a href="docs/README_pt-BR.md">Português (Brasil)</a> |
+  <a href="docs/README_th.md">ไทย</a> |
+  <a href="docs/README_tr.md">Türkçe</a> |
+  <a href="docs/README_uk.md">Українська</a> |
+  <a href="docs/README_bn.md">বাংলা</a> |
+  <a href="docs/README_el.md">Ελληνικά</a> |
+  <a href="docs/README_vi.md">Tiếng Việt</a> |
+  <a href="docs/README_hi.md">हिन्दी</a>
+</p>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/social-preview-dark.svg">
+  <img src="docs/social-preview-light.svg" alt="mobile-mcp-security" width="100%">
+</picture>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/mobile-mcp-security"><img src="https://img.shields.io/npm/v/mobile-mcp-security?color=0ea5e9&label=npm" alt="npm version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-10b981" alt="MIT License"></a>
+  <img src="https://img.shields.io/badge/TypeScript-5.3-3178c6" alt="TypeScript">
+  <img src="https://img.shields.io/badge/MCP-compatible-6366f1" alt="MCP">
+  <a href="https://github.com/Serhatcck/mobile-mcp-security/actions"><img src="https://img.shields.io/github/actions/workflow/status/Serhatcck/mobile-mcp-security/ci.yml?label=CI" alt="CI"></a>
+</p>
+
+<p align="center">
+  <a href="#features">Features</a> ·
+  <a href="#installation">Installation</a> ·
+  <a href="#tools">Tools</a> ·
+  <a href="#usage">Usage</a> ·
+  <a href="#contributing">Contributing</a> ·
+  <a href="#security">Security</a>
+</p>
+
+---
+
+**mobile-mcp-security** is an [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that gives Claude — and any MCP-compatible AI client — the ability to analyze Android APK and iOS IPA files for security issues through natural language conversation.
+
+Security researchers, mobile pentesters, and app developers can now audit permissions, extract API endpoints, detect hardcoded secrets, inspect Firebase configuration, and enumerate third-party SDKs by simply asking Claude — no scripting required.
+
+---
+
+## Features
+
+### Android
+| Tool | What it does |
+|---|---|
+| `apk_manifest_analyzer` | Parses `AndroidManifest.xml` — flags `debuggable`, `allowBackup`, exported components, intent filters |
+| `apk_permissions_checker` | Categorizes all permissions into **dangerous** vs normal with risk explanations |
+| `android_api_extractor` | Decompiles smali bytecode to extract Retrofit HTTP endpoints and OkHttp3 fields |
+| `android_google_services` | Extracts Firebase/GCP config from `google-services.json` and `resources.arsc` string values |
+| `android_secrets_scanner` | Scans DEX bytecode + `resources.arsc` + assets for hardcoded API keys and credentials |
+
+### iOS
+| Tool | What it does |
+|---|---|
+| `ios_manifest_analyzer` | Parses `Info.plist` — flags ATS misconfigs, URL schemes, background modes |
+| `ios_permissions_checker` | Categorizes privacy permission declarations by **HIGH / MEDIUM / LOW** risk |
+| `ios_entitlements_checker` | Extracts entitlements via `codesign` — flags `get-task-allow`, sandbox bypass, iCloud containers |
+| `ios_binary_strings` | Extracts URLs, emails, IPs, and API key patterns from the Mach-O binary |
+| `ios_frameworks_detector` | Lists bundled frameworks, maps ~60 known SDKs (analytics, ads, attribution, crash reporting) |
+| `ios_google_services` | Parses `GoogleService-Info.plist` for full Firebase configuration |
+| `ios_secrets_scanner` | Scans app binary + resource files for hardcoded secrets and credentials |
+
+### Shared Pattern Registry
+All secret and Google service detection patterns live in a single `patterns.ts` file — easy to extend, used by both Android and iOS scanners.
+
+---
+
+## Installation
+
+### Global install
+```bash
+npm install -g mobile-mcp-security
+```
+
+### Configure Claude Desktop
+Add to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "mobile-mcp-security": {
+      "command": "mobile-mcp-security"
+    }
+  }
+}
+```
+
+**Config file locations:**
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+### Run from source
+```bash
+git clone https://github.com/Serhatcck/mobile-mcp-security.git
+cd mobile-mcp-security
+npm install
+npm run build
+```
+
+Add to Claude Desktop config:
+```json
+{
+  "mcpServers": {
+    "mobile-mcp-security": {
+      "command": "node",
+      "args": ["/absolute/path/to/mobile-mcp-security/dist/index.js"]
+    }
+  }
+}
+```
+
+---
+
+## Usage
+
+Once configured, restart Claude Desktop and start a conversation:
+
+> *"Analyze the permissions in /path/to/app.apk"*
+
+> *"Check this IPA for hardcoded API keys: /path/to/app.ipa"*
+
+> *"What Firebase services does this APK use? /path/to/app.apk"*
+
+> *"Are there any exported components in this APK that could be an attack surface?"*
+
+> *"Show me all third-party SDKs in this iOS app and flag any privacy risks"*
+
+### Android prerequisites
+- [`apktool`](https://apktool.org) — required for `android_api_extractor` (`brew install apktool`)
+- `aapt` (optional, part of Android SDK build tools) — speeds up manifest parsing
+
+### iOS prerequisites
+- `codesign` — built into macOS, required for `ios_entitlements_checker`
+- `plutil` — built into macOS, required for binary plist parsing
+- `strings` — built into macOS, required for binary analysis tools
+
+---
+
+## Demo
+
+Generate a demo GIF with [VHS](https://github.com/charmbracelet/vhs):
+
+```bash
+brew install charmbracelet/tap/vhs
+vhs docs/demo.tape
+```
+
+---
+
+## Tools Reference
+
+### `apk_manifest_analyzer`
+```
+Input:  apk_path (string) — path to APK file
+Output: Package info, security flags, components, intent filters, warnings
+```
+
+### `apk_permissions_checker`
+```
+Input:  apk_path (string)
+Output: Dangerous permissions (highlighted) + normal permissions + risk summary
+```
+
+### `android_api_extractor`
+```
+Input:  apk_path OR smali_folder (string), output_format (txt|postman)
+Output: Retrofit HTTP endpoints or Postman collection JSON
+```
+
+### `android_google_services`
+```
+Input:  apk_path (string), smali_folder (optional string)
+Output: Firebase project ID, API keys, database URL, storage bucket, OAuth clients
+```
+
+### `android_secrets_scanner`
+```
+Input:  apk_path (string), smali_folder (optional), min_length (default 8)
+Output: Hardcoded credentials found in DEX + resources.arsc + assets
+```
+
+### `ios_manifest_analyzer`
+```
+Input:  ipa_path (string)
+Output: Bundle info, ATS settings, URL schemes, background modes, warnings
+```
+
+### `ios_permissions_checker`
+```
+Input:  ipa_path (string)
+Output: Privacy permissions grouped by HIGH/MEDIUM/LOW risk with usage descriptions
+```
+
+### `ios_entitlements_checker`
+```
+Input:  ipa_path (string)
+Output: Entitlements extracted from binary, high-risk flags, simulator detection
+```
+
+### `ios_binary_strings`
+```
+Input:  ipa_path (string), filter (all|url|key|email|ip), min_length (default 6)
+Output: Filtered strings from Mach-O binary
+```
+
+### `ios_frameworks_detector`
+```
+Input:  ipa_path (string)
+Output: Bundled frameworks grouped by category with privacy risk annotations
+```
+
+### `ios_google_services`
+```
+Input:  ipa_path (string)
+Output: Full GoogleService-Info.plist contents + pattern scan of resource files
+```
+
+### `ios_secrets_scanner`
+```
+Input:  ipa_path (string), min_length (default 8)
+Output: Secrets found in resource files and binary, split by layer with severity
+```
+
+---
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, how to add new tools, and PR guidelines.
+
+---
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for how to report vulnerabilities privately.
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md).
+
+---
+
+## License
+
+[MIT](LICENSE) © [Serhatcck](https://github.com/Serhatcck)

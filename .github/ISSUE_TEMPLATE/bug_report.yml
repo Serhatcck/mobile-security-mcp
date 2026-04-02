@@ -1,0 +1,92 @@
+name: Bug Report
+description: Tool crashes, produces wrong output, or behaves unexpectedly
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please fill in as much detail as possible.
+
+  - type: dropdown
+    id: tool
+    attributes:
+      label: Which tool is affected?
+      options:
+        - apk_manifest_analyzer
+        - apk_permissions_checker
+        - android_api_extractor
+        - android_google_services
+        - android_secrets_scanner
+        - ios_manifest_analyzer
+        - ios_permissions_checker
+        - ios_entitlements_checker
+        - ios_binary_strings
+        - ios_frameworks_detector
+        - ios_google_services
+        - ios_secrets_scanner
+        - Other / multiple tools
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Android (APK)
+        - iOS (IPA)
+        - Both
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug clearly.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: How can we reproduce this? Include the tool input if possible (redact sensitive values).
+      placeholder: |
+        1. Tool: android_secrets_scanner
+        2. Input: apk_path = "/path/to/app.apk"
+        3. Output: ...
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: "e.g. 1.0.0 — run: npm list mobile-mcp-security"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - macOS
+        - Linux
+        - Windows
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Error messages, screenshots, or anything else that might help.

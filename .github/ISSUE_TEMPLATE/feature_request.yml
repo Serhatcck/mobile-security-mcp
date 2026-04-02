@@ -1,0 +1,59 @@
+name: Feature Request
+description: Suggest a new tool, detection pattern, or improvement
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea to make mobile-mcp-security more useful? We'd love to hear it.
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type of request
+      options:
+        - New tool
+        - New detection pattern (secret / API key)
+        - New framework in ios_frameworks_detector
+        - Improvement to existing tool
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Android
+        - iOS
+        - Both
+        - N/A
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the security analysis gap or use case this would address.
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      description: What should the new tool or pattern do? What should the output look like?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any other approaches you've tried?
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Links, references, example APK/IPA behavior, etc.
