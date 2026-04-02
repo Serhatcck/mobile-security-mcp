@@ -205,12 +205,9 @@ Output: Secrets found in resource files and binary, split by layer with severity
 
 ## Demo
 
-Generate a demo GIF with [VHS](https://github.com/charmbracelet/vhs):
+![demo](docs/demo.gif)
 
-```bash
-brew install charmbracelet/tap/vhs
-vhs docs/demo.tape
-```
+> Regenerate with [VHS](https://github.com/charmbracelet/vhs): `brew install charmbracelet/tap/vhs && vhs docs/demo.tape`
 
 ---
 
